@@ -74,7 +74,7 @@ sub encode_directory {
 	my @files = read_dir($path);
 
 	my $item = format_folder($path =~ s/\A.*\/(.+)\Z/$1/r);
-	$item->{children} = [ map { -f "$path/$_" ? encode_file("$path/$_") : encode_directory("$path/$_") } @files ];
+	$item->{children} = [ map { -f "$path/$_" ? encode_file("$path/$_") : encode_directory("$path/$_") } grep { -f or -d } grep /\A[^\.]/, @files ];
 
 	return $item
 }
