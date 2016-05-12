@@ -45,10 +45,9 @@ sub encode_rbxmx_postamble {
 }
 
 sub encode_rbxmx_model {
-	my ($model) = @_;
 
 	my $data = encode_rbxmx_preamble;
-	$data .= encode_rbxmx_item($model);
+	$data .= encode_rbxmx_item($_) for @_;
 	$data .= encode_rbxmx_postamble;
 
 	return $data

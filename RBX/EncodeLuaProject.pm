@@ -96,23 +96,24 @@ sub encode_directory {
 
 
 sub encode_rbxmx_lua_project {
-	my ($path) = @_;
 
-	if (-f $path) {
-		return encode_rbxmx_model encode_file($path);
-	} elsif (-d $path) {
-		return encode_rbxmx_model encode_directory($path);
-	} else {
-		...
+	my @items;
+	for my $path (@_) {
+		if (-f $path) {
+			push @items, encode_file($path);
+		} elsif (-d $path) {
+			push @items, encode_directory($path);
+		} else {
+			...
+		}
 	}
+	return encode_rbxmx_model(@items)
 }
 
 sub main {
-	my ($path) = @_;
-	die "filepath required" unless defined $path;
-	die "invalid path '$path'" unless -e $path;
+	die "filepath required" unless @_;
 
-	print encode_rbxmx_lua_project($path);
+	print encode_rbxmx_lua_project(@_);
 }
 
 caller or main(@ARGV)
